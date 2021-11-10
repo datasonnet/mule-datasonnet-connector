@@ -11,7 +11,7 @@ To use the DataSonnet module in your application, add the following dependency t
 ```
 <groupId>org.mule.connectors</groupId>
 <artifactId>mule-datasonnet-connector</artifactId>
-<version>2.0.0</version>
+<version>2.0.0-SNAPSHOT</version>
 <classifier>mule-plugin</classifier>
 ```
 #Usage
