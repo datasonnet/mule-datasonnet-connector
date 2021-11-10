@@ -1,0 +1,12 @@
+/** DataSonnet
+version=2.0
+output application/x-java-object;DateFormat=yyyy-MM-dd; OutputClass=org.mule.extension.datasonnet.javatest.Gizmo
+*/
+{
+    "name": payload.pojoName,
+    "quantity": payload.pojoQuantity,
+    "inStock": payload.pojoInStock,
+    "colors": payload.pojoColors,
+    "manufacturer": payload.pojoManufacturer,
+    "date": payload.pojoDate
+}

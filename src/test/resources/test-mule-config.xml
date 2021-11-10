@@ -1,0 +1,63 @@
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:datasonnet="http://www.mulesoft.org/schema/mule/datasonnet"
+
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/datasonnet http://www.mulesoft.org/schema/mule/datasonnet/current/mule-datasonnet.xsd
+">
+
+    <datasonnet:config name="datasonnetconfig_lib">
+        <datasonnet:library-search-paths>
+            <datasonnet:library-search-path value="./src/test/resources"/>
+        </datasonnet:library-search-paths>
+    </datasonnet:config>
+
+    <datasonnet:config name="datasonnetconfig"/>
+
+    <flow name="testMappingFlow">
+        <set-variable variableName="count" value="#[1]"/>
+        <set-variable variableName="isActive" value="#[true]"/>
+        <logger level="INFO" message="Before mapping payload is #[payload]"/>
+
+        <datasonnet:transform datasonnetFile="simpleMapping.ds" config-ref="datasonnetconfig"/>
+
+        <logger level="INFO" message="After mapping payload is #[payload]"/>
+    </flow>
+
+    <flow name="testMappingXMLFlow">
+        <datasonnet:transform datasonnetFile="readXMLExtTest.ds" config-ref="datasonnetconfig" responseMimeType="application/json"/>
+        <logger level="INFO" message="After mapping payload is #[payload]"/>
+    </flow>
+
+    <flow name="testMappingScript">
+        <set-variable variableName="count" value="#[1]"/>
+        <set-variable variableName="isActive" value="#[true]"/>
+
+        <datasonnet:transform datasonnetScript="#[vars.mappingScript]" config-ref="datasonnetconfig"/>
+
+        <logger level="INFO" message="After transform payload is #[payload]"/>
+    </flow>
+
+    <flow name="testNamedImports">
+        <datasonnet:transform datasonnetFile="namedImports.ds" config-ref="datasonnetconfig" />
+
+        <logger level="INFO" message="After transform payload is #[payload]"/>
+    </flow>
+
+    <flow name="testNamedImportsWithPath">
+        <datasonnet:transform datasonnetFile="namedImportsFS.ds" config-ref="datasonnetconfig_lib"/>
+
+        <logger level="INFO" message="After transform payload is #[payload]"/>
+    </flow>
+
+    <flow name="testReadJava">
+        <datasonnet:transform config-ref="datasonnetconfig" datasonnetFile="readJavaTest.ds"/>
+        <logger level="INFO" message="(ReadJava)After transform #[message.payload]"/>
+    </flow>
+
+    <flow name="testWriteJava">
+        <datasonnet:transform config-ref="datasonnetconfig" datasonnetFile="writeJavaTest.ds" responseMimeType="application/x-java-object"/>
+        <logger level="INFO" message="(WriteJava)After transform #[message.payload]"/>
+    </flow>
+</mule>
